@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.14)  23 FEB 2021 16:07
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2020.10.14)  24 FEB 2021 22:24
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -811,66 +811,111 @@ Underfull \hbox (badness 10000) in paragraph at lines 34--35
 \openout4 = `document.toc'.
 
  [1]
-Overfull \hbox (0.85681pt too wide) in paragraph at lines 63--65
-\T2A/cmr/m/n/12 фор-ма-ции, внут-рен-нее пред-став-ле-ние од-но-уров-не-вых и с
-трук-ту-ри-ро-ван-ных спис-
+Overfull \hbox (0.1043pt too wide) in paragraph at lines 70--72
+\T2A/cmr/m/n/12 Функ-ции в Lisp де-лят-ся на ти-пич-ные(математические) функ-ци
+и и фор-мы - функ-
+ []
+
+
+Overfull \hbox (23.20906pt too wide) in paragraph at lines 70--72
+\T2A/cmr/m/n/12 ка). S-выражение, по-пав-шее на вход си-сте-мы ана-ли-зи-ру-ет 
+функ-ция eval. S-выражение
  []
 
 [2
 
-] [3]
-<1.png, id=24, 387.4475pt x 101.37875pt>
-File: 1.png Graphic file (type png)
-<use 1.png>
-Package pdftex.def Info: 1.png  used on input line 115.
-(pdftex.def)             Requested size: 309.95842pt x 81.1031pt.
-<2.png, id=25, 472.76625pt x 181.67876pt>
-File: 2.png Graphic file (type png)
-<use 2.png>
-Package pdftex.def Info: 2.png  used on input line 120.
-(pdftex.def)             Requested size: 378.2135pt x 145.34319pt.
-<3.png, id=26, 869.2475pt x 342.27875pt>
-File: 3.png Graphic file (type png)
-<use 3.png>
-Package pdftex.def Info: 3.png  used on input line 125.
-(pdftex.def)             Requested size: 504.16391pt x 198.52179pt.
+]
+Underfull \hbox (badness 10000) in paragraph at lines 77--78
 
-Overfull \hbox (71.68208pt too wide) in paragraph at lines 125--126
- [][] 
  []
 
-[4
+<1.png, id=20, 71.0655pt x 64.74188pt>
+File: 1.png Graphic file (type png)
+<use 1.png>
+Package pdftex.def Info: 1.png  used on input line 90.
+(pdftex.def)             Requested size: 177.66327pt x 161.85428pt.
+<2.png, id=21, 81.00262pt x 76.78688pt>
+File: 2.png Graphic file (type png)
+<use 2.png>
+Package pdftex.def Info: 2.png  used on input line 94.
+(pdftex.def)             Requested size: 202.50603pt x 191.9667pt.
+[3
 
- <./1.png> <./2.png> <./3.png>]
-<4.png, id=33, 312.16624pt x 181.67876pt>
+ <./1.png> <./2.png>]
+<3.png, id=25, 80.40038pt x 72.57112pt>
+File: 3.png Graphic file (type png)
+<use 3.png>
+Package pdftex.def Info: 3.png  used on input line 100.
+(pdftex.def)             Requested size: 201.0004pt x 181.42734pt.
+<4.png, id=26, 98.769pt x 109.00725pt>
 File: 4.png Graphic file (type png)
 <use 4.png>
-Package pdftex.def Info: 4.png  used on input line 131.
-(pdftex.def)             Requested size: 249.73334pt x 145.34319pt.
-<5.png, id=34, 472.76625pt x 261.97874pt>
+Package pdftex.def Info: 4.png  used on input line 104.
+(pdftex.def)             Requested size: 246.92184pt x 272.51743pt.
+ [4
+
+ <./3.png> <./4.png>]
+<5.png, id=30, 98.769pt x 112.92188pt>
 File: 5.png Graphic file (type png)
 <use 5.png>
-Package pdftex.def Info: 5.png  used on input line 135.
-(pdftex.def)             Requested size: 378.2135pt x 209.58327pt.
- [5
-
- <./4.png> <./5.png>]
-<6.png, id=40, 472.76625pt x 261.97874pt>
+Package pdftex.def Info: 5.png  used on input line 110.
+(pdftex.def)             Requested size: 246.92184pt x 282.30396pt.
+<6.png, id=31, 98.16675pt x 100.27463pt>
 File: 6.png Graphic file (type png)
 <use 6.png>
-Package pdftex.def Info: 6.png  used on input line 141.
-(pdftex.def)             Requested size: 378.2135pt x 209.58327pt.
- [6
+Package pdftex.def Info: 6.png  used on input line 114.
+(pdftex.def)             Requested size: 245.41626pt x 250.68591pt.
+ [5
 
- <./6.png>]
+ <./5.png> <./6.png>]
 LaTeX Font Info:    Trying to load font information for T2A+cmtt on input line 
-148.
+147.
 
 (c:/texlive/2020/texmf-dist/tex/latex/cyrillic/t2acmtt.fd
 File: t2acmtt.fd 2001/08/11 v1.0a Computer Modern Cyrillic font definitions
-) [7
+)
+<hyp.png, id=35, 298.11375pt x 254.1495pt>
+File: hyp.png Graphic file (type png)
+<use hyp.png>
+Package pdftex.def Info: hyp.png  used on input line 153.
+(pdftex.def)             Requested size: 298.11302pt x 254.14888pt.
+ [6 <./hyp.png>]
+<vol.png, id=42, 389.455pt x 303.1325pt>
+File: vol.png Graphic file (type png)
+<use vol.png>
+Package pdftex.def Info: vol.png  used on input line 168.
+(pdftex.def)             Requested size: 311.5644pt x 242.50633pt.
 
-] (./document.aux)
+Underfull \hbox (badness 10000) in paragraph at lines 174--188
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 174--188
+
+ []
+
+[7
+
+ <./vol.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 197--198
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 213--225
+
+ []
+
+[8]
+Overfull \hbox (22.81317pt too wide) in paragraph at lines 250--256
+\T2A/cmr/m/n/12 List и Cons яв-ля-ют-ся функ-ци-я-ми со-зда-ния спис-ков (Cons^
+^Uбазовая, List^^Uнет).Функция
+ []
+
+[9
+
+] [10] (./document.aux)
 
 LaTeX Warning: There were undefined references.
 
@@ -884,25 +929,25 @@ Package logreq Info: Writing requests to 'document.run.xml'.
 
  ) 
 Here is how much of TeX's memory you used:
- 12402 strings out of 479917
- 214405 string characters out of 5886664
- 963314 words of memory out of 5000000
- 28834 multiletter control sequences out of 15000+600000
- 543841 words of font info for 46 fonts, out of 8000000 for 9000
+ 12501 strings out of 479917
+ 213008 string characters out of 5886664
+ 966277 words of memory out of 5000000
+ 28930 multiletter control sequences out of 15000+600000
+ 544099 words of font info for 47 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,7n,67p,741b,1714s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 60i,8n,67p,741b,1714s stack positions out of 5000i,500n,10000p,200000b,80000s
 {c:/texlive/2020/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t2a.enc}<c:/tex
 live/2020/texmf-dist/fonts/type1/public/cm-super/sfbx1200.pfb><c:/texlive/2020/
 texmf-dist/fonts/type1/public/cm-super/sfbx1728.pfb><c:/texlive/2020/texmf-dist
-/fonts/type1/public/cm-super/sfcc1200.pfb><c:/texlive/2020/texmf-dist/fonts/typ
+/fonts/type1/public/cm-super/sfrm0600.pfb><c:/texlive/2020/texmf-dist/fonts/typ
 e1/public/cm-super/sfrm1095.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/
 cm-super/sfrm1200.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/cm-super/s
-frm1728.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sfti1200.pf
-b><c:/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sftt1200.pfb>
-Output written on document.pdf (8 pages, 340809 bytes).
+frm1728.pfb><c:/texlive/2020/texmf-dist/fonts/type1/public/cm-super/sftt1000.pf
+b>
+Output written on document.pdf (11 pages, 901084 bytes).
 PDF statistics:
- 79 PDF objects out of 1000 (max. 8388607)
- 46 compressed objects within 1 object stream
+ 81 PDF objects out of 1000 (max. 8388607)
+ 49 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 
