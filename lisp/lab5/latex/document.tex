@@ -1,0 +1,278 @@
+\documentclass[a4paper, 12pt]{article}
+
+%\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{graphicx}
+\usepackage[top=1in, bottom=1in, left=3.2cm, right=2.6cm]{geometry}
+\graphicspath{./}
+\usepackage{biblatex}
+\addbibresource{lib.bib}
+\linespread{1.5}
+\usepackage{ragged2e}
+\justifying
+\usepackage{listings}
+\usepackage{color}
+
+
+\begin{document}
+	
+\begin{titlepage}
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{figure}[t!]
+		\centering
+		\includegraphics[scale=0.8]{bmstu}
+	\end{figure}
+	
+	\noindent\rule{15cm}{3pt}
+	\newline\newline
+	\noindent 
+	ФАКУЛЬТЕТ 
+	\underline{«Информатика и системы управления»} \newline\newline
+	
+	\noindent КАФЕДРА \underline{«Программное обеспечение ЭВМ и информационные технологии»}\newline\newline\newline\newline\newline
+	
+	\centering {\Large Отчет по лабораторной работе № 5}
+	\vspace{4mm}
+	
+	\centering {\Large По курсу: "Функциональное и логическое программирование"
+		\vspace{8mm}	
+		
+		}
+	\vspace{8mm}
+	
+	
+	\begin{flushright}
+		{\small	Студент:\\ Турсунов Жасурбек Рустамович \\ Группа: ИУ7-66Б
+			\vspace{3mm}
+			\\Преподователи: \\ Толпинская Наталья Борисовна \\ Строганов Юрий Владимирович}
+	\end{flushright}
+	
+	\begin{center}
+		\vfill
+		Москва, \the\year
+		~г.
+	\end{center}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+\newpage
+
+\textbf{Цель работы:} приобрести навыки работы с управляющими структурами Lisp.
+\\ \hspace*{5mm} \textbf{Задачи работы:} изучить работу функций с произвольным количеством аргументов, функций разрушающих и неразрушающих структуру исходных аргументов.
+
+
+\section*{Введение}
+\addcontentsline{toc}{section}{Введение}
+
+\hspace*{5mm} Многие стандартные функции Lisp являются формами и реализуют особый способ работы со своими аргументами. К таким функциям относятся функции, позволяющие работать с произвольным количеством аргументов: and, or, append, или особым образом обрабатывающее свои аргументы: функции cond, if, append, remove, reverse, substitute.
+\\ \hspace*{5mm} Если на вход функции подается структура данных(списков), то возникает вопрос: сохранится ли возможность в дальнейшем работать с исходными струтурами, или они изменятся в процессе реализации функции. В Lisp существуют функции, использующие списки в качестве аргументов и разрушающие структуру исходных аргументов при этом часть из них позволяет использовать произвольное количество аргументов, а часть нет.
+\clearpage
+\newpage
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=false,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=4
+}
+
+\lstset{style=mystyle}
+
+\section*{Задание 1}
+\addcontentsline{toc}{section}{Задание 1}
+Написать функцию, которая принимает целое число и возвращает первое четное число, не меньшее аргумента.\\
+\begin{lstlisting}
+	(defun get\_even (x) 
+		(cond ((oddp x)(+ x 1)) (x))
+	)
+\end{lstlisting}
+
+Примеры:
+\begin{itemize}
+	\item (get\_even 4) -> 4
+	\item (get\_even 7) -> 8\\
+\end{itemize}
+
+\section*{Задание 2}
+\addcontentsline{toc}{section}{Задание 2}
+Написать функцию, которая принимает число и возвращает число того же знака, но с модулем на 1 больше модуля аргумента.\\
+\begin{lstlisting}
+	(defun inc\_abs (x) 
+		(cond ((plusp x)(+ x 1))((- x 1)))
+	)
+\end{lstlisting}
+
+Примеры:
+\begin{itemize}
+	\item (inc\_abs 3) -> 4
+	\item (inc\_abs -5) -> -6\\
+\end{itemize}
+
+\section*{Задание 3}
+\addcontentsline{toc}{section}{Задание 3}
+Написать функцию, которая принимает два числа и возвращает список из этих чисел, расположенный по возрастанию.\\
+\begin{lstlisting}
+	(defun get\_asc (x y) 
+		(cond ((> x y)(list y x))((list x y)))
+	)
+\end{lstlisting}
+
+Примеры:
+\begin{itemize}
+	\item (get\_asc 3 5) -> (3 5)
+	\item (get\_asc 5 -1) -> (-1 5)\\
+\end{itemize}
+
+\section*{Задание 4}
+\addcontentsline{toc}{section}{Задание 4}
+Написать функцию, которая принимает три числа и возвращает T только тогда, когда первое число расположенно между вторым и третьим.\\
+\begin{lstlisting}
+	(defun between (a b c) 
+		(or (and (> a b) (< a c)) (and (< a b) (> a c)))
+	)
+\end{lstlisting}
+
+Примеры:
+\begin{itemize}
+	\item (between 8 7 10) -> T
+	\item (between 2 3 0) -> T
+	\item (between 1 5 8) -> NIL\\
+\end{itemize}
+
+\section*{Задание 5}
+\addcontentsline{toc}{section}{Задание 5}
+Каков результат вычисления следующих выражений?\\
+\begin{enumerate}
+	\item (and 'fee 'fie 'foe)\\
+	Результат: FOE
+	\item (or 'fee 'fie 'foe)\\
+	Результат: FEE
+	\item (and (equal 'abc 'abc) 'yes)\\
+	Результат: YES
+	\item (or nil 'fie 'foe)\\
+	Результат: FIE
+	\item (and nil 'fie 'foe)\\
+	Результат: NIL
+	\item (or (equal 'abc 'abc) 'yes)\\
+	Результат: T\\
+\end{enumerate}
+
+\section*{Задание 6}
+\addcontentsline{toc}{section}{Задание 6}
+Написать предикат, который принимает два числа-аргумента и возвращает Т, если первое число не меньше второго.\\
+\begin{lstlisting}
+	(defun is\_greater 
+		(x y) (>= x y)
+	)
+\end{lstlisting}
+
+Примеры:
+\begin{itemize}
+	\item (is\_greater 5 2) -> T
+	\item (is\_greater 7 20) -> NIL
+	\item (is\_greater 6 6) -> T\\
+\end{itemize}
+
+\section*{Задание 7}
+\addcontentsline{toc}{section}{Задание 7}
+Какой из следующих двух вариантов предикатов ошибочен и почему?\\
+
+\begin{enumerate}
+	\item (defun pred1 (x) (and (numberp x) (plusp x)))
+	\item (defun pred2 (x) (and (plusp x) (numberp x)))
+\end{enumerate} 
+
+Ошибочен второй предикат, так как в нем сначала вычисляется предикат plusp, который может вернуть ошибку в случае, если x не является числом, а первый предикат в этом случает вычислит предикат numberp, вернет NIL и предикат plusp вычислен не будет.\\
+
+
+\section*{Задание 8}
+\addcontentsline{toc}{section}{Задание 8}
+Решить задачу 4, используя для ее решения конструкции:\\
+
+\begin{itemize}
+	\item COND\\
+	\begin{lstlisting}
+		(defun between (a b c) 
+			(cond ((cond ((> a b) (< a c)) ((< a b) (> a c)))))
+		)
+	\end{lstlisting}
+	\item IF\\
+	\begin{lstlisting}
+		(defun between (a b c) 
+			(if (> a b) (< a c) (if (< a b) (> a c)))
+		)
+	\end{lstlisting}
+	
+	\item AND/OR\\
+	\begin{lstlisting}
+		(defun between (a b c) 
+			(or (and (> a b) (< a c)) (and (< a b) (> a c)))
+		)
+	\end{lstlisting}
+\end{itemize}
+
+
+\section*{Ответы на вопросы:}
+\addcontentsline{toc}{section}{Ответы на вопросы}
+\hspace*{-7mm} \textbf{1) Классификация функций:}
+\begin{enumerate}
+	\item базовые функции:
+	\begin{enumerate}
+		\item селекторы (car, cdr);
+		\item конструкторы(cons);
+		\item предикаты (atom, Null, lisp, ..);
+		\item функции сравнения (eq, eql, =, equal, equalp).
+	\end{enumerate}
+	\item формы;
+	\item функционалы.
+	\item математические.
+	\item рекурсивные.
+\end{enumerate}
+\hspace*{-6mm}Списки представлены с помощью списковых ячеек. Списочная ячейка состоит из двух частей, полей car и cdr. Каждое из полей содержит указатель. Указатель может ссылаться на другую списочную ячейку или на некоторый другой Lisp объект, как, например, атом.
+\\ Указатели между ячейками образуют цепочку, по которой можно из предыдущей ячейки попасть в следующую и так, наконец, до атомарных объектов. Каждый известный системе атом записан в определённом месте памяти лишь один раз.
+\\Если это  не стоит блокировка вычисления(quote, '), то первый элемент трактуется как имя функции, остальные — как аргументы.
+
+\hspace*{-13mm} \textbf{2) Работа функций and, or, if, cond:}
+\\ Функция \textbf{cond} принимает произвольное количество аргументов. Каждый аргумент функции должен быть списком ровно из двух элементов. Первый из этих элементов условно называется условием, а второй - результатом. Принцип работы заключается в выполнении каждого условия из каждого списка условий до тех пор пока не встретися условие равное T. Если такого выражения нет, то COND вернет NIL.
+\\Функция \textbf{if}:
+\\ Оператор if обозначает то же, что и конструкция cond. Сначала выполняется условие. Если результат не равен nil, тогда выбирается форма then. Иначе выбирается форма else. Выбранная ранее форма выполняется, и if возвращает то, что вернула это форма. if более читабельный. Форма else может быть опущена. В таком случае, если значение условия является nil, тогда ничего не будет выполнено и возвращаемое значение формы if будет nil. 
+\\Функция \textbf{and}:
+\\Логическая функция AND берет один или несколько аргументов. Она выполняет эти аргументы слева направо. Если она встречает аргумент, значение которого NIL, она возвращает NIL, не продолжая вычисления остальных. Если NIL аргументов не встретилось, то возвращается значение последнего аргумента. 
+\\Функция \textbf{or}:
+\\Логическая функция OR берет один или несколько аргументов. Она выполняет эти аргументы слева направо и возвращает значение первого аргумента, который не NIL.Если все аргументы OR имеют значение NIL, то OR возвращает NIL. 
+
+
+
+\hspace*{-8mm} \textbf{3) Способы определения функций}
+\\Новые функции можно определить с помощью оператора defun. Он принимает три или более аргументов: имя, список параметров и ноль или более выражений, которые составляют тело функции. 
+
+(defun func\_name (arg1 arg2 ... argN) func\_body)
+
+Но функция не обязательно должна иметь имя, для того, чтобы определить функцию, не имеющую имени, необходимо воспользоваться лямбда-выражением. Лямбда-выражение – это список, содержащий символ lambda и следующие за ним список аргументов и тело, состоящее из нуля или более выражений.
+
+(lambda (arg1 arg2 .. argN) func\_body)
+
+
+
+\end{document}
