@@ -1,0 +1,347 @@
+\documentclass[a4paper, 12pt]{article}
+
+%\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{graphicx}
+\usepackage[top=1in, bottom=1in, left=3.2cm, right=2.6cm]{geometry}
+\graphicspath{./}
+\usepackage{biblatex}
+\addbibresource{lib.bib}
+\linespread{1.5}
+\usepackage{ragged2e}
+\justifying
+\usepackage{listings}
+\usepackage{color}
+
+
+\begin{document}
+	
+\begin{titlepage}
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{figure}[t!]
+		\centering
+		\includegraphics[scale=0.8]{bmstu}
+	\end{figure}
+	
+	\noindent\rule{15cm}{3pt}
+	\newline\newline
+	\noindent 
+	ФАКУЛЬТЕТ 
+	\underline{«Информатика и системы управления»} \newline\newline
+	
+	\noindent КАФЕДРА \underline{«Программное обеспечение ЭВМ и информационные технологии»}\newline\newline\newline\newline\newline
+	
+	\centering {\Large Отчет по лабораторной работе № 6}
+	\vspace{4mm}
+	
+	\centering {\Large По курсу: "Функциональное и логическое программирование"
+		\vspace{8mm}	
+		
+		}
+	\vspace{8mm}
+	
+	
+	\begin{flushright}
+		{\small	Студент:\\ Турсунов Жасурбек Рустамович \\ Группа: ИУ7-66Б
+			\vspace{3mm}
+			\\Преподователи: \\ Толпинская Наталья Борисовна \\ Строганов Юрий Владимирович}
+	\end{flushright}
+	
+	\begin{center}
+		\vfill
+		Москва, \the\year
+		~г.
+	\end{center}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+\newpage
+
+\textbf{Цель работы:} приобрести навыки работы с управляющими структурами Lisp.
+\\ \hspace*{5mm} \textbf{Задачи работы:} изучить работу функций с произвольным количеством аргументов, функций разрушающих и неразрушающих структуру исходных аргументов.
+
+
+\section*{Введение}
+\addcontentsline{toc}{section}{Введение}
+
+\hspace*{5mm} Многие стандартные функции Lisp являются формами и реализуют особый способ работы со своими аргументами. К таким функциям относятся функции, позволяющие работать с произвольным количеством аргументов: and, or, append, или особым образом обрабатывающее свои аргументы: функции cond, if, append, remove, reverse, substitute.
+\\ \hspace*{5mm} Если на вход функции подается структура данных(списков), то возникает вопрос: сохранится ли возможность в дальнейшем работать с исходными струтурами, или они изменятся в процессе реализации функции. В Lisp существуют функции, использующие списки в качестве аргументов и разрушающие структуру исходных аргументов при этом часть из них позволяет использовать произвольное количество аргументов, а часть нет.
+\clearpage
+\newpage
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=false,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=4
+}
+
+\lstset{style=mystyle}
+
+\section*{Задание 1}
+\addcontentsline{toc}{section}{Задание 1}
+Чем принципиально отличаются функции CONS, LIST, APPEND?\\
+CONS является базовой функцией Lisp, LIST и APPEND реализованы через CONS. CONS является чистой математической функцией, принимающей 2 параметра. Она создает списочную ячейку, CAR-указатель которой указывает на 1-й аргумент, а CDR-указатель - на 2-й аргумент.
+
+LIST является формой, так как принимает произвольное число аргументов, возвращая список, состоящий из переданных ему аргументов.
+
+APPEND является формой, так как принимает произвольное число аргументов, которые должны быть списками, кроме последнего. Она возвращает точечную пару, CAR-указатель которой указывает на конкатенацию всех переданных ей аргументов, кроме последнего, а CDR-указатель - на последний аргумент. При этом структура исходных аргументов не разрушается, для этого происходит копирование всех аргументов, кроме последнего. 
+
+Пусть
+
+(setf lst1 '( a b)) (setf lst2 '( c d))
+
+Каковы результаты вычисления следующих выражений?
+\begin{itemize}
+	\item (cons lst1 lst2)\\
+	Результат: ((A B) C D)
+	\item (list lst1 lst2)\\
+	Результат: ((A B) (C D))
+	\item (append lst1 lst2)\\
+	Результат: (A B C D)\\
+\end{itemize}
+
+\section*{Задание 2}
+\addcontentsline{toc}{section}{Задание 2}
+Каковы результаты вычисления следующих выражений?
+\begin{itemize}
+	\item (reverse ())\\
+	Результат: NIL
+	\item (last ())\\
+	Результат: NIL
+	\item (reverse '(a))\\
+	Результат: (A)
+	\item (last '(a))\\
+	Результат: (A)
+	\item (reverse '((a b c)))\\
+	Результат: ((A B C))
+	\item (last '((a b c)))\\
+	Результат: ((A B C))\\
+\end{itemize}
+
+\section*{Задание 3}
+\addcontentsline{toc}{section}{Задание 3}
+Написать, по крайней мере, 2 варианта функции, которая возвращает последний элемент своего списка-аргумента.
+
+\begin{lstlisting}[caption=1-й вариант функции получения последнего элемента списка]
+	(defun get_last (lst) 
+		(car (last lst))
+	)
+\end{lstlisting}
+
+\begin{lstlisting}[caption=2-й вариант функции получения последнего элемента списка]
+	(defun get_last (lst) 
+		(car (reverse lst))
+	)
+\end{lstlisting}
+\clearpage
+\newpage
+\begin{lstlisting}[caption=3-й вариант функции получения последнего элемента списка]
+	(defun get_last (lst) (cond 
+		(
+			(cdr lst)
+			(get_last (cdr lst))
+		)
+		(
+			(car lst)
+		)
+		)
+	)
+\end{lstlisting}
+
+Пример:
+\begin{lstlisting}
+	> (get_last '(1 2 3 4))
+	4
+	> (get_last '((1 2) 3 4 (5 (6))))
+	(5 (6))
+	> (get_last ())
+	NIL
+\end{lstlisting}
+\section*{Задание 4}
+\addcontentsline{toc}{section}{Задание 4}
+Написать, по крайней мере, 2 варианта функции, которая возвращает свой список-аргумент без последнего элемента.
+
+\begin{lstlisting}[caption=1-й вариант функции получения спиcка без последнего элемента]
+	(defun remove_last (lst) 
+		(reverse (cdr (reverse lst)))
+	)
+\end{lstlisting}
+
+\begin{lstlisting}[caption=2-й вариант функции получения спиcка без последнего элемента]
+	(defun remove_last (lst) (cond 
+		(
+			(cdr lst) 
+			(cons 
+				(car lst) 
+				(remove_last (cdr lst))
+			)
+		)
+	))
+\end{lstlisting}
+
+Пример:
+\begin{lstlisting}
+	> (remove_last '(1 2 3 4))
+	(1 2 3)
+	> (remove_last '((1 2) 3 4 (5 (6))))
+	((1 2) 3 4)
+	> (remove_last ())
+	NIL
+\end{lstlisting}
+
+\section*{Задание 5}
+\addcontentsline{toc}{section}{Задание 5}
+Написать простой вариант игры в кости, в котором бросаются две правильные кости. Если сумма выпавших очков равна 7 или 11 - выигрыш, если выпало (1,1) или (6,6) - игрок получает право снова бросить кости, во всех остальных случаях ход переходит ко второму игроку, но запоминается сумма выпавших очков. Если второй игрок не выигрывает абсолютно, то выигрывает тот игрок, у которого больше очков. Результат игры и значения выпавших костей выводить на экран с помощью функции print.
+\begin{lstlisting}[caption=Функция подбрасывания костей]
+	(defun roll_dice () 
+		(cons 
+			(+ (random 6) 1) 
+			(+ (random 6) 1)
+		)
+	)
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Функция проверки переподбрасывания костей]
+	(defun check_reroll (pair) 
+		(or 
+			(= (car pair) (cdr pair) 1) 
+			(= (car pair) (cdr pair) 6)
+		)
+	)
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Функция суммирования чисел в точечной паре]
+	(defun sum_pair (pair) 
+		(+ (car pair) (cdr pair))
+	)
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Функция проверки моментального выигрыша]
+	(defun check_win (pair) 
+		(or 
+			(= (sum_pair pair) 7)
+			(= (sum_pair pair) 11)
+		)
+	)
+\end{lstlisting}
+
+\begin{lstlisting}[caption=Функция получения конечного результата подбрасывания]				
+	(defun get_player_result () 
+		(let ((pair (toss_dice))) 
+			(cond
+				(
+					(check_reroll pair)
+					(format T "~%Got ~A, rerolling: " pair) (get_player_result)
+				)
+				(pair)
+			)
+		)
+	)
+\end{lstlisting}
+\clearpage
+\newpage
+\begin{lstlisting}[caption=Функция игры в кости]
+(defun play_dice () (princ "Player 1: ")
+  (let ((player1 (get_player_result)))
+    (princ player1)
+	(terpri)
+	(cond 
+	  (
+		(check_win player1)
+		(princ "Player 1 wins")
+	  )
+	  (		
+		(princ "Player 2: ")
+	    (let ((player2 (get_player_result)))
+		  (princ player2)
+		  (terpri)
+		  (cond 
+			(
+	          (check_win player2)
+	          (princ "Player 2 wins")
+	
+	        )
+	        (
+	          (cond 
+	            (
+	              (= (sum_pair player1) (sum_pair player2))
+				  (princ "Draw")
+				)
+				(
+			      (> (sum_pair player1) (sum_pair player2))
+				  (princ "Player 1 wins")
+				)
+				(
+				  (princ "Player 2 wins")
+				)	
+			  )
+		    )
+		  )
+		)
+	  )
+	)
+  )
+)
+\end{lstlisting}
+
+Пример:
+\begin{lstlisting}
+	> (play_dice)
+	Player 1: (5 . 1)
+	Player 2: (5 . 3)
+	Player 2 wins
+	> (play_dice)
+	Player 1: (6 . 4)
+	Player 2: (2 . 5)
+	Player 2 wins
+	> (play_dice)
+	Player 1: (4 . 1)
+	Player 2: (3 . 2)
+	Draw
+	> (play_dice)
+	Player 1: (3 . 4)
+	Player 1 wins
+	> (play_dice)
+	Player 1: 
+	Got (1 . 1), rerolling: (4 . 6)
+	Player 2: (2 . 3)
+	Player 1 wins
+\end{lstlisting}
+
+\section*{Ответы на вопросы:}
+\addcontentsline{toc}{section}{Ответы на вопросы}
+\hspace*{-7mm} \textbf{1) Отличие в работе функций CONS, LIST, APPEND:}
+CONS является базовой функцией Lisp, LIST и APPEND реализованы через CONS. CONS является чистой математической функцией, принимающей 2 параметра. Она создает списочную ячейку, CAR-указатель которой указывает на 1-й аргумент, а CDR-указатель - на 2-й аргумент.
+
+LIST является формой, так как принимает произвольное число аргументов, возвращая список, состоящий из переданных ему аргументов.
+
+APPEND является формой, так как принимает произвольное число аргументов, которые должны быть списками, кроме последнего. Она возвращает точечную пару, CAR-указатель которой указывает на конкатенацию всех переданных ей аргументов, кроме последнего, а CDR-указатель - на последний аргумент. При этом структура исходных аргументов не разрушается, для этого происходит копирование всех аргументов, кроме последнего.
+
+\hspace*{-13mm} \textbf{2) Структурно разрушающие и не разрушающие структуру списка функции:}
+\\ 
+
+
+
+\end{document}
