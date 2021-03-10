@@ -19,4 +19,6 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{Задание 8}{6}{}%
 \defcounter {refsection}{0}\relax 
+\contentsline {section}{Задание 9}{7}{}%
+\defcounter {refsection}{0}\relax 
 \contentsline {section}{Ответы на вопросы}{7}{}%

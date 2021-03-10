@@ -232,6 +232,33 @@
 	\end{lstlisting}
 \end{itemize}
 
+\section*{Задание 9}
+\addcontentsline{toc}{section}{Задание 9}
+Переписать функцию how-alike, приведенную в лекции и использующую COND, использую конструкции IF, AND/OR.\\
+\begin{lstlisting}
+	(defun how-alike (x y) 
+		(if (or (= x y)(equal x y)) 'the_same
+			(if (and (oddp x)(oddp y)) 'both_odd
+				(if (and (evenp x)(evenp y)) 'both_even
+					'difference
+				)
+			)
+		)
+	)
+\end{lstlisting}
+
+
+Пример:
+\begin{lstlisting}
+	> (how_alike 1 1)
+	THE_SAME
+	> (how_alike 1 6)
+	DIFFERENCE
+	> (how_alike 8 4)
+	BOTH_EVEN
+	> (how_alike 5 7)
+	BOTH_ODD
+\end{lstlisting}
 
 \section*{Ответы на вопросы:}
 \addcontentsline{toc}{section}{Ответы на вопросы}
