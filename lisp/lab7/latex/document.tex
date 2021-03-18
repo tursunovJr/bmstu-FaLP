@@ -1,0 +1,413 @@
+\documentclass[a4paper, 12pt]{article}
+
+%\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{graphicx}
+\usepackage[top=1in, bottom=1in, left=3.2cm, right=2.6cm]{geometry}
+\graphicspath{./}
+\usepackage{biblatex}
+\addbibresource{lib.bib}
+\linespread{1.5}
+\usepackage{ragged2e}
+\justifying
+\usepackage{listings}
+\usepackage{color}
+
+
+\begin{document}
+	
+\begin{titlepage}
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{figure}[t!]
+		\centering
+		\includegraphics[scale=0.8]{bmstu}
+	\end{figure}
+	
+	\noindent\rule{15cm}{3pt}
+	\newline\newline
+	\noindent 
+	ФАКУЛЬТЕТ 
+	\underline{«Информатика и системы управления»} \newline\newline
+	
+	\noindent КАФЕДРА \underline{«Программное обеспечение ЭВМ и информационные технологии»}\newline\newline\newline\newline\newline
+	
+	\centering {\Large Отчет по лабораторной работе № 7}
+	\vspace{4mm}
+	
+	\centering {\Large По курсу: "Функциональное и логическое программирование"
+		\vspace{8mm}	
+		
+		}
+	\vspace{8mm}
+	
+	
+	\begin{flushright}
+		{\small	Студент:\\ Турсунов Жасурбек Рустамович \\ Группа: ИУ7-66Б
+			\vspace{3mm}
+			\\Преподователи: \\ Толпинская Наталья Борисовна \\ Строганов Юрий Владимирович}
+	\end{flushright}
+	
+	\begin{center}
+		\vfill
+		Москва, \the\year
+		~г.
+	\end{center}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+\newpage
+
+\textbf{Цель работы:} приобрести навыки работы с управляющими структурами Lisp.
+\\ \hspace*{5mm} \textbf{Задачи работы:} изучить работу функций с произвольным количеством аргументов, функций разрушающих и неразрушающих структуру исходных аргументов.
+
+
+\section*{Введение}
+\addcontentsline{toc}{section}{Введение}
+
+\hspace*{5mm} Многие стандартные функции Lisp являются формами и реализуют особый способ работы со своими аргументами. К таким функциям относятся функции, позволяющие работать с произвольным количеством аргументов: and, or, append, или особым образом обрабатывающее свои аргументы: функции cond, if, append, remove, reverse, substitute.
+\\ \hspace*{5mm} Если на вход функции подается структура данных(списков), то возникает вопрос: сохранится ли возможность в дальнейшем работать с исходными струтурами, или они изменятся в процессе реализации функции. В Lisp существуют функции, использующие списки в качестве аргументов и разрушающие структуру исходных аргументов при этом часть из них позволяет использовать произвольное количество аргументов, а часть нет.
+\clearpage
+\newpage
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=false,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=4
+}
+
+\lstset{style=mystyle}
+
+\section*{Задание 1}
+\addcontentsline{toc}{section}{Задание 1}
+Написать функцию, которая по своему списку-аргументу lst определяет, является ли он палиндромом (то есть равны ли lst и (reverse lst)).
+\begin{lstlisting}
+(defun check_pal(lst)
+  (cond
+    (
+	  (null lst)
+	)
+	(
+	  (and 
+	    (equal 
+	      (car lst) 
+	      (mapcon #'(lambda (el) 
+	        (cond
+	          (
+	            (null (cdr el))
+	            (car el)
+	          )
+	        )
+	      ) lst
+	     )
+	    )
+	    (check_pal 
+	      (mapcon #'(lambda (el) 
+	        (cond 
+	          (
+	            (cdr el)
+	            (cons (car el) nil)
+	          )
+	        )
+	       ) (cdr lst)
+	      )
+	    )
+	  )
+	)
+  )
+)
+\end{lstlisting}
+Условием выхода из рекурсии является достижение середины списка(аргумент - nil) - возвращается t. 
+
+Осуществляется проверка на равенство первого и последнего элементов списка, если они равны, то осуществляется рекурсивный вызов текущей функции для списка-аргумента без первого и последнего аргументов. Иначе возвращается nil.
+\section*{Задание 2}
+\addcontentsline{toc}{section}{Задание 2}
+Написать предикат set-equal, который возвращает t, если два его множества-аргумента содержат одни и те же элементы, порядок которых не имеет значения.
+\begin{lstlisting}[caption=Функция проверки эквивалентности двух множеств]
+(defun check-sets-equal (set1 set2)
+	(and
+		(is-subset set1 set2)
+		(is-subset set2 set1)
+	)
+)
+\end{lstlisting}
+\textbf{set1} и \textbf{set2} - списки-множества.
+\begin{lstlisting}[caption=Функция проверки вхождения подмножества во множество]
+(defun is-subset (set subset)
+	(cond
+		(
+			(null subset)
+		)
+		(
+			(and 
+				(contains set (car subset))
+				(is-subset set (cdr subset))
+			)
+		)
+	)
+)
+\end{lstlisting}
+\textbf{set} и \textbf{subset} - первое множество и второе множество, для которого проверяется является ли оно подмножеством первого множества.
+
+\newpage
+
+\begin{lstlisting}[caption=Функция проверки вхождения элемента в список]
+(defun contains (lst element)
+	(cond
+		(
+			(null lst)
+			nil
+		)
+		(
+			(equal (car lst) element)
+		)
+		(
+			(contains (cdr lst) element)
+		)
+	)
+)
+\end{lstlisting}
+\textbf{lst} - список,  \textbf{element} - элемент, для которого проверяется, входит ли он во  список-аргумент.
+
+Рекурсивная реализация является более эффективной по памяти, так как в процессе вычислений не выделяет никаких списочных ячеек. Также она является более эффективной по времени, так как прерывает вычисления, как только обнаруживается, что элемент одного множества не входит в другое.
+
+\subsubsection*{Примеры работы:}
+\begin{lstlisting}
+	> (check-sets-equal '(1 3 2) '(3 2 1))
+	T
+	> (check-sets-equal '(1 2) '(3 2 1))
+	NIL
+	> (check-sets-equal '(1) '(1))
+	T
+	> (check-sets-equal '(E H H H) '(H E))
+	T
+\end{lstlisting}
+
+\section*{Задание 3}
+\addcontentsline{toc}{section}{Задание 3}
+Напишите необходимые функции, которые обрабатывают таблицу из точечных пар: (страна . столица), и возвращают по стране - столицу, а по столице - страну.
+
+\begin{lstlisting}[caption=Функция поиска в списке точечных пар]
+(defun find_in_pairs (lst name)
+	(cond
+		(
+			(null lst)
+			nil
+		)
+		(
+			(equal (caar lst) name)
+			(cdar lst)
+		)
+		(
+			(equal (cdar lst) name)
+			(caar lst)
+		)
+		(
+			(find_in_pairs (cdr lst) name)
+		)
+	)
+)
+\end{lstlisting}
+\textbf{lst} - список точечных пар,  \textbf{element} - элемент, для которого проверяется, входит ли он в одну из точечных пар списка-аргумента.
+ Рекурсивная реализация является более эффективной по времени, так как если искомый элемент найден, то он сразу возвращается.
+
+\subsubsection*{Примеры работы:}
+\begin{lstlisting}
+	> (find_in_pairs '((moscow . russia) (london . england) (washington . usa)) 'moscow)
+	RUSSIA
+	> (find_in_pairs '((moscow . russia) (london . england) (washington . usa)) 'russia)
+	MOSCOW
+	> (find_in_pairs '((moscow . russia) (london . england) (washington . usa)) 'kiev)
+	NIL
+\end{lstlisting}
+
+
+
+\section*{Задание 4}
+\addcontentsline{toc}{section}{Задание 4}
+Напишите функцию swap-first-last, которая переставляет в списке аргументе первый и последний элементы.
+
+\begin{lstlisting}[caption=Функция перестановки первого и последнего элементов]
+(defun swap-first-last(lst)
+	(cond 
+		(
+			(null (cdr lst))
+			lst
+		)
+		(
+			(nconc 
+				(
+					mapcon #'(lambda (el) 
+					(cond
+						(
+							(null (cdr el))
+							el
+						)
+					)
+				   ) lst
+				)
+				(
+					mapcon #'(lambda (el) 
+					(cond
+						(
+							(cdr el)
+							(cons (car el) nil) 
+						)
+					)
+				   ) (cdr lst)
+				)
+				(cons (car lst) nil)
+			)
+		)
+	)
+)
+\end{lstlisting}
+\textbf{lst} - входной список.
+
+С помощью первого mapcon получается список из последнего элемента списка аргумента, с помощью второй mapcon получается список-аргумент без первого и последнего элементов, и создается список из первого элемента списка-аргумента. Затем эти списки объединяются с помощью nconc.
+
+\subsubsection*{Примеры работы:}
+\begin{lstlisting}
+	> (swap-first-last '(1 2 3 4))
+	(4 2 3 1)
+	> (swap-first-last nil)
+	NIL
+	> (swap-first-last '(1))
+	(1)
+	> (swap-first-last '((1 2) 3 4 (5)))
+	((5) 3 4 (1 2))
+\end{lstlisting}
+
+
+\section*{Задание 5}
+\addcontentsline{toc}{section}{Задание 5}
+Напишите две функции, swap-to-left и swap-to-right, которые производят круговую перестановку в списке-аргументе влево и вправо, соответственно на k позиций.
+
+\begin{lstlisting}[caption=Функция круговой перестановки элементов списка влево]
+(defun swap-to-left (lst k)
+	(cond 
+		(
+			(<= k 0) 
+			lst
+		)
+		(
+			(swap-to-left 
+				(nconc
+					(cdr lst)
+					(cons (car lst) nil)
+				)
+				(- k 1)
+			)
+		)
+	)
+)
+\end{lstlisting}
+\textbf{lst} - входной список, \textbf{k} - количество позиций, на которое необходимо выполнить перестановку.
+
+Условием выхода из рекурсии является окончание перестановки элементов (второй аргумент - 0) - возвращается первый аргумент.
+
+С помощью nconc объединяется хвост списка-аргумента со списком, указатель на голову которого указывает на голову списка-аргумента, а указатель на хвост - на nil. Затем осуществляется рекурсивный вызов текущей функции для созданного списка и второго аргумента, уменьшенного на 1.
+\begin{lstlisting}[caption=Функция круговой перестановки элементов списка вправо]
+(defun swap-to-right (lst k)
+	(cond 
+		(
+			(<= k 0) 
+			lst
+		)
+		(
+			(swap-to-right 
+			(nconc 
+				(mapcon #'(lambda (el)
+					(cond
+						(
+							(null (cdr el))
+							el
+						)
+					)
+			   	  ) lst
+				)
+				(mapcon #'(lambda (el)
+					(cond
+						(
+							(cdr el)
+							(cons (car el) nil)
+						)
+					)
+				   ) lst
+				)
+			)
+			(- k 1)
+		)
+	  )
+	)
+)
+\end{lstlisting}
+\textbf{lst} - входной список, \textbf{k} - количество позиций, на которое необходимо выполнить перестановку.
+
+Условием выхода из рекурсии является окончание перестановки элементов (второй аргумент - 0) - возвращается первый аргумент.
+
+С помощью первого mapcon осуществляется получение списка, указатель на голову которого указывает на последний элемент списка-аргумента, а указатель на хвост - на nil. С помощью второго mapcon осуществляется получение списка-аргумента без последнего элемента. Затем с помощью nconc происходит объединение этих двух списков. Далее осуществляется рекурсивный вызов текущей функции для созданного списка и второго аргумента, уменьшенного на 1.
+
+\subsubsection*{Примеры работы:}
+\begin{lstlisting}
+	> (swap-to-right nil 3)
+	NIL
+	> (swap-to-right '(1) 3)
+	(1)
+	> (swap-to-right '(1 2 3 4 5) 1)
+	(5 1 2 3 4)
+	> (swap-to-right '(1 2 3 4 5) 3)
+	(3 4 5 1 2)
+	> (swap-to-right '(1 2 3 4 5) 5)
+	(1 2 3 4 5)
+	> (swap-to-right '((1) 2 3 (4 5)) 1)
+	((4 5) (1) 2 3)
+	> (swap-to-left '(1 2 3 4 5) 1)
+	(2 3 4 5 1)
+	> (swap-to-left '(1 2 3 4 5) 3)
+	(4 5 1 2 3)
+	> (swap-to-left '(1 2 3 4 5) 5)
+	(1 2 3 4 5)
+	> (swap-to-left '((1) 2 3 (4 5)) 1)
+	(2 3 (4 5) (1))
+\end{lstlisting}
+
+
+
+
+\section*{Ответы на вопросы:}
+\addcontentsline{toc}{section}{Ответы на вопросы}
+\hspace*{-7mm} \textbf{1) Способы определения функций}
+\\ Собственную функцию можно определить через спец функцию DEFUN, которая принимает три аргумента(первый должен быть атомом(название), второй аргумент список атомов(аргументы), третий аргумент произвольной формы(тело функции))
+Но функция не обязательно должна иметь имя, для того, чтобы определить функцию, не имеющую имени, необходимо воспользоваться лямбда-выражением. Лямбда-выражение – это список, содержащий символ lambda и следующие за ним список аргументов и тело, состоящее из нуля или более выражений.
+
+
+\hspace*{-13mm} \textbf{2) Варианты и методы модификации элементов списка:}
+\\ Структурно разрушающие функции - это те функции, которых после обработки теряются данные. Эти функции при работе работают с самимми данными, то есть не создают копии чтобы с ними работать 
+\\Структурно не разрущающие - это функции в которых после обработки остаются данные. Эти функции при работе при работе создают копию и работают с ней.
+Например функцци с приставкой n - разрушающие функции, а без - не разрушающие.
+
+
+
+\end{document}
