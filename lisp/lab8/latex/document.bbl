@@ -1,0 +1,53 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.1 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{nty/global//global/global}
+    \entry{com}{online}{}
+      \name{author}{1}{}{%
+        {{hash=74ebbfb55e3583ac4ac8c38e2f489074}{%
+           family={Lisp},
+           familyi={L\bibinitperiod},
+           given={Home},
+           giveni={H\bibinitperiod}}}%
+      }
+      \strng{namehash}{74ebbfb55e3583ac4ac8c38e2f489074}
+      \strng{fullhash}{74ebbfb55e3583ac4ac8c38e2f489074}
+      \strng{bibnamehash}{74ebbfb55e3583ac4ac8c38e2f489074}
+      \strng{authorbibnamehash}{74ebbfb55e3583ac4ac8c38e2f489074}
+      \strng{authornamehash}{74ebbfb55e3583ac4ac8c38e2f489074}
+      \strng{authorfullhash}{74ebbfb55e3583ac4ac8c38e2f489074}
+      \field{sortinit}{L}
+      \field{sortinithash}{dad3efd0836470093a7b4a7bb756eb8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{addendum}{(дата обращения: 17.02.2021)}
+      \field{title}{Введение в Lisp {[ЭЛ. РЕСУРС] Режим доступа:}}
+      \verb{urlraw}
+      \verb http://homelisp.ru/help/lisp.html
+      \endverb
+      \verb{url}
+      \verb http://homelisp.ru/help/lisp.html
+      \endverb
+      \keyw{com}
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

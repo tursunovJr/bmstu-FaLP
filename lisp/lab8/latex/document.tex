@@ -1,0 +1,290 @@
+\documentclass[a4paper, 12pt]{article}
+
+%\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{graphicx}
+\usepackage[top=1in, bottom=1in, left=3.2cm, right=2.6cm]{geometry}
+\graphicspath{./}
+\usepackage{biblatex}
+\addbibresource{lib.bib}
+\linespread{1.5}
+\usepackage{ragged2e}
+\justifying
+\usepackage{listings}
+\usepackage{color}
+
+
+\begin{document}
+	
+\begin{titlepage}
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{figure}[t!]
+		\centering
+		\includegraphics[scale=0.8]{bmstu}
+	\end{figure}
+	
+	\noindent\rule{15cm}{3pt}
+	\newline\newline
+	\noindent 
+	ФАКУЛЬТЕТ 
+	\underline{«Информатика и системы управления»} \newline\newline
+	
+	\noindent КАФЕДРА \underline{«Программное обеспечение ЭВМ и информационные технологии»}\newline\newline\newline\newline\newline
+	
+	\centering {\Large Отчет по лабораторной работе № 8}
+	\vspace{4mm}
+	
+	\centering {\Large По курсу: "Функциональное и логическое программирование"
+		\vspace{8mm}	
+		
+		}
+	\vspace{8mm}
+	
+	
+	\begin{flushright}
+		{\small	Студент:\\ Турсунов Жасурбек Рустамович \\ Группа: ИУ7-66Б
+			\vspace{3mm}
+			\\Преподователи: \\ Толпинская Наталья Борисовна \\ Строганов Юрий Владимирович}
+	\end{flushright}
+	
+	\begin{center}
+		\vfill
+		Москва, \the\year
+		~г.
+	\end{center}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+\newpage
+
+\textbf{Цель работы:} приобрести навыки использования функционалов.
+\\ \hspace*{5mm} \textbf{Задачи работы:} описать и сравнить работу функционалов: apply, funcall, mapcar, maplist
+
+
+\section*{Введение}
+\addcontentsline{toc}{section}{Введение}
+
+\hspace*{5mm} Для организации многократных вычислений в Lisp могут быть использованы функционалы - функции, которые особым образом обрабатывают свои аргументы. Функционалы - это  функции более высокого порядка, так как они в качестве своего первого аргумента принимают функциональный объект - функцию, имеющую имя(глобально определенную функцию), или функцию, не имеющею имени(локально определенную функцию). При использовании функционального объекта должно быть использовано замыкание контекста функции, которым обеспечивается связывание свободных переменных со значениями. В Lisp используются применяющие и отображающие функционалы, являющиеся предикатами, функционалы, использующие предикаты в качестве функционального объекта
+\clearpage
+\newpage
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=false,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=4
+}
+
+\lstset{style=mystyle}
+
+\section*{Задание 1}
+\addcontentsline{toc}{section}{Задание 1}
+Напишите функцию, которая умножает на заданное число-аргумент все числа из заданного списка-аргумента, когда
+\begin{enumerate}
+	\item[а)] все элеметны списка - числа,
+	\item[б)] элементы списка - любые объекты.\\
+\end{enumerate}
+
+\begin{lstlisting}[caption=Функция умножения для списка из чисел]
+(defun mult_num (lst k)
+	(mapcar 
+		#'(lambda (el) (* el k))
+		lst
+	)
+)
+\end{lstlisting}
+\textbf{lst} - входной список, \textbf{k} - число, на которое выполняется умножение.
+
+С помощью mapcar осуществляется формирование списка, состоящего из элементов списка-аргумента, умноженных на число-аргумент.
+
+\begin{lstlisting}[caption=Функция умножения для списка из любых объектов]
+(defun mult_all (lst k)
+	(mapcar #'(lambda (el)
+		(cond
+			(
+				(numberp el)
+				(* el k)
+			)
+			(
+				(atom el)
+				el
+			)
+			(
+				(mult_all el k)
+			)
+		)
+	  ) lst
+	)
+)
+\end{lstlisting}
+\textbf{lst} - входной список, \textbf{k} - число, на которое выполняется умножение.
+
+С помощью mapcar существляется проход по всему списку и проверка типа каждого элемента: 
+\begin{itemize}
+	\item если он является числом, то производится умножение на число-аргумент функции и возвращается результат;
+	\item если он является атомом, то он возвращается;
+	\item если он является списком, то к нему рекурсивно применяется текущая функция.
+\end{itemize}
+
+\subsubsection*{Примеры работы:}
+\begin{lstlisting}
+	> (mult_num nil 1)
+	NIL
+	> (mult_num '(1) 3)
+	(3)
+	> (mult_num '(1 2 3 4 5) 3)
+	(3 6 9 12 15)
+	> (mult_all nil 2)
+	NIL
+	> (mult_all '(1) 2)
+	(2)
+	> (mult_all '(1 2 3) 3)
+	(3 6 9)
+	> (mult_all '((1 2) 3 (4 (5))) 3)
+	((3 6) 9 (12 (15)))
+	> (mult_all '(1 2 (a)) 3)
+	(3 6 (A))
+\end{lstlisting}
+\section*{Задание 2}
+\addcontentsline{toc}{section}{Задание 2}
+Напишите функцию, select-between, которая из списка-аргумента, содержащего только числа, выбирает только те, которые расположены между двумя указанными границами-аргументами и возвращает их в виде списка.
+
+\begin{lstlisting}[caption=Функция выборки из списка по границам]
+(defun select-between (lst a b)
+	(remove-if	#'(lambda (x) 
+		(and 
+			(or (< x a)(> x b)) 
+			(or (> x a)(< x b))
+		)
+	  )lst
+	)
+)
+\end{lstlisting}
+\textbf{lst} -  входной список, \textbf{a}, \textbf{b}  -  границы выбора.
+
+С помощью функционала remove-if осуществляется проход по всему списку-аргументу и удаление тех элементов списка, которые не входят в заданные границы-аргументы.
+
+\subsubsection*{Примеры работы:}
+\begin{lstlisting}
+	> (select-between nil 1 2)
+	NIL
+	> (select-between '(1) 0 2)
+	(1)
+	> (select-between '(1 2 3) 4 5)
+	NIL
+	> (select-between '(1 2 3 4 5) 2 4)
+	(2 3 4)
+	> (select-between '(1 2 3 4 5) 4 2)
+	(2 3 4)
+\end{lstlisting}
+
+\section*{Задание 3}
+\addcontentsline{toc}{section}{Задание 3}
+Напишите функцию, которая уменьшает на 10 все числа из списка аргумента этой функции.
+
+\subsubsection*{Реализация с помощью функционалов и рекурсии:}
+\begin{lstlisting}[caption=Функция уменьшения всех чисел смиска на 10]
+(defun dec_all (lst)
+	(mapcar #'(lambda (el)
+		(cond
+			(
+				(numberp el)
+				(- el 10)
+			)
+			(
+				(atom el)
+				el
+			)
+			(
+				(dec_all el)
+			)
+		)
+	   ) lst
+	)
+)
+\end{lstlisting}
+\textbf{lst} - список.
+
+В реализации осуществляется проход по всему списку, проверка типа каждого элемента: 
+\begin{itemize}
+	\item если он является числом, то из него вычитается 10 и выделяется списочная ячейка; 
+	\item если он является атомом, то под него выделяется списочная ячейка;
+	\item если он является списком, то к нему рекурсивно применяется текущая функция.
+\end{itemize}
+
+
+\section*{Задание 4}
+\addcontentsline{toc}{section}{Задание 4}
+Написать функцию, которая возвращает первый аргумент списка-аргумента, который сам является непустым списком.
+
+\subsubsection*{Реализация с помощью рекурсии:}
+\begin{lstlisting}[caption=Функция поиска первого непустого списка]
+(defun get_first_list (lst)
+	(cond	
+		(
+			(and	
+				(listp (car lst))
+				(not (null (car lst)))
+			)
+			(car lst)
+		)
+		(
+			(get_first_list (cdr lst))
+		)
+	)
+)
+\end{lstlisting}
+\textbf{lst} - список.
+
+Реализация с помощью рекурсии эффективнее и по памяти, и по скорости, так как не создает вспомогательных списков и возвращает непустой список сразу же, как он встретится.
+
+\subsubsection*{Примеры работы:}
+\begin{lstlisting}
+	> (get_first_list '(1 2 (3) (4 5 (6))))
+	(3)
+	> (get_first_list '(((1 2) 3) 4 5))
+	((1 2) 3)
+	> (get_first_list '(nil 2 (nil (5)) 6))
+	(NIL (5))
+\end{lstlisting}
+
+
+
+\section*{Задание 5}
+\addcontentsline{toc}{section}{Задание 5}
+Что будет результатом (mapcar 'вектор '(570-40-8))? 
+\\ Результат: (\#(|570-40-8|))
+
+
+
+\section*{Ответы на вопросы:}
+\addcontentsline{toc}{section}{Ответы на вопросы}
+\hspace*{-7mm} \textbf{1) Варианты использования функционалов}
+\\ Функционалы используются для вычисления одной функции с разными входными значениями. Например, для применения какой-то операции ко всему списку. Некоторые функционалы используют повторные вычисления, что позволяет организовывать накие вычисления на этих функционалах (например, mapcar)
+
+
+
+
+
+\end{document}
