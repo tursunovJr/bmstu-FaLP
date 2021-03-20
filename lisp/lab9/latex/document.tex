@@ -1,0 +1,272 @@
+\documentclass[a4paper, 12pt]{article}
+
+%\usepackage{cmap}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english, russian]{babel}
+\usepackage{graphicx}
+\usepackage[top=1in, bottom=1in, left=3.2cm, right=2.6cm]{geometry}
+\graphicspath{./}
+\usepackage{biblatex}
+\addbibresource{lib.bib}
+\linespread{1.5}
+\usepackage{ragged2e}
+\justifying
+\usepackage{listings}
+\usepackage{color}
+
+
+\begin{document}
+	
+\begin{titlepage}
+	\fontsize{12pt}{12pt}\selectfont
+	\begin{figure}[t!]
+		\centering
+		\includegraphics[scale=0.8]{bmstu}
+	\end{figure}
+	
+	\noindent\rule{15cm}{3pt}
+	\newline\newline
+	\noindent 
+	ФАКУЛЬТЕТ 
+	\underline{«Информатика и системы управления»} \newline\newline
+	
+	\noindent КАФЕДРА \underline{«Программное обеспечение ЭВМ и информационные технологии»}\newline\newline\newline\newline\newline
+	
+	\centering {\Large Отчет по лабораторной работе № 8}
+	\vspace{4mm}
+	
+	\centering {\Large По курсу: "Функциональное и логическое программирование"
+		\vspace{8mm}	
+		
+		}
+	\vspace{8mm}
+	
+	
+	\begin{flushright}
+		{\small	Студент:\\ Турсунов Жасурбек Рустамович \\ Группа: ИУ7-66Б
+			\vspace{3mm}
+			\\Преподователи: \\ Толпинская Наталья Борисовна \\ Строганов Юрий Владимирович}
+	\end{flushright}
+	
+	\begin{center}
+		\vfill
+		Москва, \the\year
+		~г.
+	\end{center}
+\end{titlepage}
+
+\tableofcontents
+\clearpage
+\newpage
+
+\textbf{Цель работы:} приобрести навыки использования рекурсии и функционалов.
+\\ \hspace*{5mm} \textbf{Задачи работы:} изучить способы применения функционалов и рекурсии при обработке одноуровневых и структурированных списков.
+
+
+\section*{Введение}
+\addcontentsline{toc}{section}{Введение}
+
+\hspace*{5mm} Для организации многократных вычислений в Lisp могут быть использованы функционалы - функции, которые особым образом обрабатывают свои аргументы. Функционалы - это  функции более высокого порядка, так как они в качестве своего первого аргумента принимают функциональный объект - функцию, имеющую имя(глобально определенную функцию), или функцию, не имеющею имени(локально определенную функцию). При использовании рекурсии - необходимо обеспечить эффективность работы, путем использования хвостовой рекурсии. В рекурсивных функциях могут быть использованы дополнительные функции - не в аргументах вызова, а вне них. Рекурсивные вызовы могут быть организованы как в одной ветке, так и в нескольких ветках программы. Рекурсивные функции могут вызывать друг друга. 
+\clearpage
+\newpage
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+	backgroundcolor=\color{backcolour},   
+	commentstyle=\color{codegreen},
+	keywordstyle=\color{magenta},
+	numberstyle=\tiny\color{codegray},
+	stringstyle=\color{codepurple},
+	basicstyle=\ttfamily\footnotesize,
+	breakatwhitespace=false,         
+	breaklines=false,                 
+	captionpos=b,                    
+	keepspaces=true,                 
+	numbers=left,                    
+	numbersep=5pt,                  
+	showspaces=false,                
+	showstringspaces=false,
+	showtabs=false,                  
+	tabsize=4
+}
+
+\lstset{style=mystyle}
+
+\section*{Задание 1}
+\addcontentsline{toc}{section}{Задание 1}
+Написать функцию, вычисляющую декартово произведение двух своих списков-аргументов.
+
+\begin{lstlisting}[caption=Функция вычисления декартова произведения]
+(defun decart (set1 set2)
+	(mapcan #'(lambda (x)
+		(mapcar #'(lambda (y) 
+			(cons x (cons y nil))
+			) set2
+		)
+	  ) set1
+	)
+)
+\end{lstlisting}
+\textbf{set1} и \textbf{set2} - списки-множества.
+
+С помощью mapcar получается декартово произведение одного элемента первого множества на второе множество, с помощью mapcan получается декартово произведение всех элементов первого множества на второе.
+
+\subsubsection*{Примеры работы:}
+\begin{lstlisting}
+	> (decart '(1 2) '(a b c))
+	((1 A) (1 B) (1 C) (2 A) (2 B) (2 C))
+	> (decart '(1) '(A))
+	((1 A))
+	> (decart '(1) nil)
+	NIL
+\end{lstlisting}
+
+
+\section*{Задание 2}
+\addcontentsline{toc}{section}{Задание 2}
+Написать функцию, которая выбирает из заданного списка только те числа, которые больше 1 и меньше 10.
+
+\begin{lstlisting}
+(defun selector_func (lst a b)
+	(remove nil 
+		(mapcar (lambda (el) 
+			(and 
+				(numberp el) 
+				(> el a) 
+				(< el b) el)
+				) lst
+		)
+	)
+)
+
+\end{lstlisting}
+mapcar возвращает исходный список, в котором все непрошедшие проверку элементы заменены на nil. Эти элементы удаляются с помощью remove
+
+
+\section*{Задание 3}
+\addcontentsline{toc}{section}{Задание 3}
+Почему так реализовано reduce, в чем причина?
+\begin{lstlisting}
+	(reduce #'+ ()) -> 0
+\end{lstlisting}
+
+Причина в том, что reduce должен корректно обрабатывать поданный ему список любого размера, поэтому когда список пуст и аргумент :initial-value не задан,  возвращается значение функции-аргумента, которую вызвали без аргументов, а если аргумент :initial-value задан, то возвращается его значение.
+
+
+
+
+\section*{Задание 4}
+\addcontentsline{toc}{section}{Задание 4}
+Пусть list-of-lists список, состоящий из списков. Написать функцию, которая вычисляет сумму длин всех элементов list-of-lists, т.е. например для аргумента ((1 2) (3 4)) -> 4.
+
+\subsubsection*{Хвостовая рекурсия:}
+\begin{lstlisting}[caption=Функция-обертка для вычисления суммарной длины списков]
+(defun count-length (lst)
+	(count-length-helper lst 0)
+)
+\end{lstlisting}
+\textbf{lst} - входной список.
+\begin{lstlisting}[caption=Функция для вычисления суммарной длины списков]
+(defun count-length-helper (lst length)
+	(cond	
+		(
+			(null lst) 
+			length
+		)
+		(
+			(listp (car lst)) 
+			(count-length-helper 
+			(cdr lst) 
+			(count-length-helper (car lst) length)) 
+		)
+		(
+			(count-length-helper (cdr lst) (+ length 1))
+		)
+	)
+)
+\end{lstlisting}
+\textbf{lst} - входной список, \textbf{length} - длина списка.
+
+Условием выхода из рекурсии является достижение конца списка(первый аргумент - nil) - возвращается второй аргумент, в котором накапливается суммарная длина списка. Если голова первого аргумента список, то осуществляется рекурсивный вызов текущей функции для хвоста первого аргумента и рекурсивного вызова, который осуществляется для головы первого аргумента и второго аргумента. Иначе осуществляется рекурсивный вызов текущей функции для хвоста списка и второго аргумента, увеличенного на 1.
+
+\subsubsection*{Примеры работы:}
+\begin{lstlisting}
+	> (count-length nil)
+	0
+	> (count-length '(1))
+	1
+	> (count-length '(1 2 3))
+	3
+	> (count-length '((1 2) (3 4)))
+	4
+	> (count-length '((1 2 (3) 4) 5 (6)))
+	6
+\end{lstlisting}
+
+
+
+
+\section*{Ответы на вопросы:}
+\addcontentsline{toc}{section}{Ответы на вопросы}
+\hspace*{-7mm} \textbf{1) Классификация рекурсивных функций}
+\\Рекурсия — это ссылка на определяемый объект во время его определения.
+Способы организации рекурсивных функций:
+\begin{itemize}
+	\item Хвостовая рекурсия
+	
+	Результат формируется не на выходе из рекурсии, а на входе в рекурсию, все действия выполняются до ухода на следующий шаг рекурсии.
+	\begin{lstlisting}
+	(defun fun (x)
+		(cond	
+			(end_test1	end_value1)
+			...
+			(end_testN	end_valueN)
+			( (fun reduced_x) )
+		) 
+	)
+	\end{lstlisting}
+	\item Рекурсия по нескольким параметрам
+	\begin{lstlisting}
+	(defun fun (n x)
+		(cond	
+			(end_test	end_value)
+			( t	(fun (reduced_n) (reduced_x))) 
+		)
+	)
+	\end{lstlisting}
+	\item Дополняемая рекурсия
+	
+	При обращении к рекурсивной функции используется дополнительная функция не в аргументе вызова, а вне его.
+	\begin{lstlisting}
+	(defun fun (x)
+		(cond	
+			(test end_value)
+			(t (add_fun	add_value	(fun reduced_x)) )
+		)
+	)
+	\end{lstlisting}
+	
+	\item Множественная рекурсия
+	
+	На одной ветке происходит сразу несколько рекурсивных вызовов. Количество условий выхода также может зависеть от задачи.
+	\begin{lstlisting}
+	(defun fun (x)
+		(cond	
+			(test end_val)
+			( t (combine	(fun changed1_x)
+				(fun changed2_x))
+			)
+		)
+	)
+	\end{lstlisting}
+\end{itemize}
+
+
+
+\end{document}

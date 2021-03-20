@@ -1,0 +1,7 @@
+Написать функции swap-to-element:
+(defun swap-two-element (lst f s) 
+	(let ((temp (nth f lst))) 
+			(setf (nth f lst) (nth s lst ))
+			(setf (nth s lst) temp))
+	lst
+)
