@@ -9,8 +9,12 @@
 \defcounter {refsection}{0}\relax 
 \contentsline {section}{Задание 3}{5}{}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Задание 4}{6}{}%
+\contentsline {section}{Задание 4}{7}{}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Задание 5}{7}{}%
+\contentsline {section}{Задание 5}{8}{}%
 \defcounter {refsection}{0}\relax 
-\contentsline {section}{Ответы на вопросы}{8}{}%
+\contentsline {section}{Задание 6}{9}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Задание 7}{10}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Задание 8}{12}{}%
