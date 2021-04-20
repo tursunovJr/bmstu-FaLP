@@ -1,0 +1,12 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {russian}{}
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Введение}{2}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Задание 1}{4}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Задание 2}{6}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Задание 3}{7}{}%
+\defcounter {refsection}{0}\relax 
+\contentsline {section}{Ответы на вопросы}{14}{}%
